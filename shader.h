@@ -5,7 +5,7 @@ reference: https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/
 #ifndef _GL_HELPER_SHADER_H
 #define _GL_HELPER_SHADER_H
 
-#include "core.h"
+#include "common.h"
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -48,12 +48,17 @@ namespace GLHelper
 		// create shader from a string array
 		Shader(GLsizei count, const GLchar** shaderCode, const GLint *length, ShaderType _type) : type(_type)
 		{
+			// set logger
+			//set_logger();
 			// create and compile the shader
 			construct(count, shaderCode, length);
 		};
 		// read shader code from file with specified extension
 		Shader(const GLchar* shaderPath)
 		{
+			// set logger
+			//set_logger();
+			// judge shader type
 			getTypeFromExt(shaderPath);
 			std::string shaderStr = readCode(shaderPath);
 			// get shader code
@@ -64,6 +69,9 @@ namespace GLHelper
 		// read shader code from file with specified type
 		Shader(const GLchar* shaderPath, ShaderType _type) : type(_type)
 		{
+			// set logger
+			//set_logger();
+			// read shader file
 			std::string shaderStr = readCode(shaderPath);
 			// get shader code
 			const char *shaderCode = shaderStr.c_str();
@@ -77,6 +85,17 @@ namespace GLHelper
 			glDeleteShader(ID);
 		}
 	private:
+		//// logger
+		//std::shared_ptr<spdlog::logger> _logger;
+		//// logger init
+		//inline void set_logger()
+		//{
+		//	_logger = spdlog::get("Shader");
+		//	if (!_logger)
+		//	{
+		//		_logger = spdlog::stdout_logger_st("Shader");
+		//	}
+		//}
 		// map ShaderType to GLenum shader type
 		inline GLenum typeMap(ShaderType type)
 		{
@@ -150,8 +169,11 @@ namespace GLHelper
 			catch (std::ifstream::failure e)
 			{
 				// reading file fails
-				std::cerr << "Error";
+				//_logger->error("Read \"{}\" failed", shaderPath);
+				printf("[OPENGL]SHADER_READ_FAIL: %s\n", shaderPath);
+				shaderStr.empty();
 			}
+			return shaderStr;
 		}
 		void checkCompileErrors()
 		{
@@ -161,6 +183,9 @@ namespace GLHelper
 			if (!success)
 			{
 				glGetShaderInfoLog(ID, 1024, NULL, infoLog);
+				// std::cout << infoLog << std::endl;
+				// _logger->error("{} compilation error: {}", ShaderName[type], infoLog);
+				printf("[OPENGL]SHADER_COMPILATION_FAIL: %s\n", infoLog);
 			}
 		}
 		// construct the shader
