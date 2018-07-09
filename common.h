@@ -21,7 +21,7 @@
 inline void checkErrors(std::string desc) {
 	GLenum e = glGetError();
 	if (e != GL_NO_ERROR) {
-		printf("OpenGL error in \"%s\": (%d)\n", desc.c_str(), e);
+		fprintf(stderr,"[OpenGL] Error in \"%s\": (%d)\n", desc.c_str(), e);
 	}
 }
 

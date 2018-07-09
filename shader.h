@@ -170,7 +170,7 @@ namespace GLHelper
 			{
 				// reading file fails
 				//_logger->error("Read \"{}\" failed", shaderPath);
-				printf("[OPENGL]SHADER_READ_FAIL: %s\n", shaderPath);
+				fprintf(stderr,"[OPENGL] SHADER_READ_FAIL: %s\n", shaderPath);
 				shaderStr.empty();
 			}
 			return shaderStr;
@@ -185,7 +185,7 @@ namespace GLHelper
 				glGetShaderInfoLog(ID, 1024, NULL, infoLog);
 				// std::cout << infoLog << std::endl;
 				// _logger->error("{} compilation error: {}", ShaderName[type], infoLog);
-				printf("[OPENGL]SHADER_COMPILATION_FAIL: %s\n", infoLog);
+				fprintf(stderr,"[OPENGL] SHADER_COMPILATION_FAIL: %s\n", infoLog);
 			}
 		}
 		// construct the shader

@@ -318,7 +318,7 @@ namespace GLHelper
 			{
 				glGetProgramInfoLog(ID, 1024, NULL, infoLog);
 				// cstdio is faster
-				printf("[OPENGL]PROGRAM_LINK_FAIL: %s\n", infoLog);
+				fprintf(stderr,"[OPENGL] PROGRAM_LINK_FAIL: %s\n", infoLog);
 				//_logger->error("Program linking failed: {}", infoLog);
 			}
 		}
